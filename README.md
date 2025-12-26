@@ -1,36 +1,196 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎫 Sistema de Tickets — Frontend & Backend
 
-## Getting Started
+Bem-vindo ao **Sistema de Tickets** 🚀  
+Este projeto é uma aplicação completa para **gestão de chamados**, composta por:
 
-First, run the development server:
+- 🖥 **Frontend** em **Next.js (App Router)**
+- ⚙️ **Backend** em **Django + Django REST Framework**
+- 🔐 Autenticação via **JWT**
+- 🎨 Interface moderna com **shadcn/ui**, **Tailwind CSS** e **styled-components**
+
+---
+
+## ✨ Funcionalidades
+
+### 🔐 Autenticação
+- Login com usuário e senha
+- Tokens **JWT (access / refresh)**
+- Proteção de rotas autenticadas
+
+### 📊 Dashboard
+- Resumo visual dos tickets por status
+- Listagem de tickets recentes
+- Indicadores rápidos:
+  - Abertos
+  - Em atendimento
+  - Aguardando cliente
+  - Fechados
+
+### 🎫 Tickets
+- Criação de novos tickets
+- Visualização em tabela estilizada
+- Status dinâmicos com cores
+- Prioridade configurável
+
+---
+
+## 🧱 Tecnologias Utilizadas
+
+### Frontend
+- **Next.js 13+ (App Router)**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **shadcn/ui**
+- **styled-components**
+
+### Backend
+- **Python**
+- **Django**
+- **Django REST Framework**
+- **Simple JWT**
+
+---
+
+## 📂 Estrutura do Projeto (Frontend)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+app/
+├── (auth)/
+│   └── login/
+│       └── page.tsx
+├── (app)/
+│   ├── layout.tsx
+│   └── page.tsx  # Dashboard
+├── tickets/
+│   └── novo/
+│       └── page.tsx
+├── layout.tsx
+└── globals.css
+
+components/
+├── ui/               # shadcn/ui
+├── Navbar.tsx
+└── TicketsTable.styles.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔑 Autenticação JWT (Fluxo)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Usuário faz login
+2. Backend retorna:
+   - `access_token`
+   - `refresh_token`
+3. Tokens são salvos no **localStorage**
+4. Requisições autenticadas enviam:
 
-## Learn More
+```http
+Authorization: Bearer SEU_ACCESS_TOKEN
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔌 Consumo da API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Buscar tickets do dashboard
 
-## Deploy on Vercel
+```ts
+const token = localStorage.getItem("access_token");
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+fetch("http://127.0.0.1:8000/api/dashboard/tickets/", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🎨 Tabela de Tickets (styled-components)
+
+A tabela utiliza **styled-components** para melhor organização visual e manutenção.
+
+### Vantagens
+- Estilos isolados
+- Fácil customização
+- Cores dinâmicas por status
+- Código JSX mais limpo
+
+Exemplo de status com badge:
+
+- 🔵 OPEN
+- 🟠 IN_PROGRESS
+- 🟣 WAITING
+- 🟢 CLOSED
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+### Frontend
+
+```bash
+npm install
+npm run dev
+```
+
+Acesse:  
+👉 http://localhost:3000
+
+---
+
+### Backend
+
+```bash
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Acesse:  
+👉 http://127.0.0.1:8000
+
+---
+
+## ⚠️ Problemas Comuns
+
+### ❌ Erro 401 Unauthorized
+
+Possíveis causas:
+- Token não enviado no header
+- Token expirado
+- Endpoint protegido sem permissão correta
+
+✅ Solução:
+- Verificar `Authorization: Bearer TOKEN`
+- Garantir `IsAuthenticated` no backend
+
+---
+
+## 📈 Próximas Melhorias
+
+- 🔍 Filtro por status e prioridade
+- 📄 Paginação
+- 🧩 Página de detalhes do ticket
+- 📱 Responsividade mobile
+- 🌙 Dark mode
+
+---
+
+## 👨‍💻 Autor
+
+**Gabriel Baptista**  
+Desenvolvedor Full Stack  
+
+---
+
+## ⭐ Considerações Finais
+
+Este projeto foi estruturado seguindo **boas práticas modernas**, com foco em:
+- Organização
+- Escalabilidade
+- Experiência do usuário
+
+Sinta-se à vontade para contribuir, melhorar ou adaptar 🚀
+
