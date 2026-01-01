@@ -192,5 +192,3 @@ Este projeto foi estruturado seguindo **boas práticas modernas**, com foco em:
 - Escalabilidade
 - Experiência do usuário
 
-Sinta-se à vontade para contribuir, melhorar ou adaptar 🚀
-
